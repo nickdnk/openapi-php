@@ -83,7 +83,7 @@ abstract class Base implements JsonSerializable
      *
      * @return static
      */
-    final public function withEnum($enum)
+    final public function withEnum(array $enum)
     {
 
         $this->enum = $enum;

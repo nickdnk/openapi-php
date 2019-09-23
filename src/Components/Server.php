@@ -20,7 +20,7 @@ class Server implements JsonSerializable
      * @param string|null $description
      * @param array       $variables
      */
-    public function __construct(string $url, ?string $description, ?array $variables)
+    public function __construct(string $url, ?string $description = null, ?array $variables = null)
     {
 
         $this->url = $url;
