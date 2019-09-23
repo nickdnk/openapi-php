@@ -1,0 +1,24 @@
+{
+  "name": "nickdnk/php-openapi",
+  "description": "Tools for documenting PHP code in OpenAPI.",
+  "keywords": [
+    "openapi",
+    "swagger",
+    "php"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Nicolai Cornelis"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "nickdnk\\OpenAPI\\": "src/"
+    }
+  }
+}
