@@ -302,34 +302,15 @@ class Endpoint implements JsonSerializable
                 'description' => Response::mapHttpCode($httpCode),
             ];
 
-            if ($responses[0]->getSchema() !== null) {
-
-                if (count($responses) > 1) {
-
-                    $schemas = [];
-                    foreach ($responses as $response) {
-                        $schemas[] = $response->getSchema();
-                    }
-
-                    $applicationJson = [
-                        'schema' => ['oneOf' => $schemas]
-                    ];
-
-                } else {
-
-                    $applicationJson = [
-                        'schema' => $responses[0]->getSchema()
-                    ];
-
-                }
-
-                $objectInHttpCode['content'] = [
-                    'application/json' => $applicationJson
-                ];
-
-            }
+            $schemas = [];
 
             foreach ($responses as $response) {
+
+                if ($response->getSchema() !== null) {
+
+                    $schemas[] = $response->getSchema();
+
+                }
 
                 if ($response->getHeaders() !== null) {
 
@@ -343,6 +324,15 @@ class Endpoint implements JsonSerializable
                     }
 
                 }
+            }
+
+            if (count($schemas) > 0) {
+
+                $objectInHttpCode['content'] = [
+                    'application/json' => [
+                        'schema' => count($schemas) > 1 ? ['oneOf' => $schemas] : $schemas[0]
+                    ]
+                ];
 
             }
 

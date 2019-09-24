@@ -42,24 +42,6 @@ class Header implements JsonSerializable
     }
 
     /**
-     * @return Base
-     */
-    public function getValue(): Base
-    {
-
-        return $this->value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-
-        return $this->description;
-    }
-
-    /**
      * Specify data which should be serialized to JSON
      *
      * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
@@ -71,8 +53,8 @@ class Header implements JsonSerializable
     {
 
         return [
-            'schema'      => $this->getValue(),
-            'description' => $this->getDescription()
+            'schema'      => $this->value,
+            'description' => $this->description
         ];
     }
 }
