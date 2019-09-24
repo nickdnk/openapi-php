@@ -1,5 +1,5 @@
 {
-  "name": "nickdnk/php-openapi",
+  "name": "nickdnk/openapi-php",
   "description": "Tools for documenting PHP code in OpenAPI.",
   "keywords": [
     "openapi",

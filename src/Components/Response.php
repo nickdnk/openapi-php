@@ -198,11 +198,9 @@ class Response
             throw new InvalidArgumentException('Invalid HTTP code passed to redirect: ' . $httpCode);
         }
 
-        $self = new self(
+        return (new self(
             $httpCode, null
-        );
-
-        return $self->withHeader(
+        ))->withHeader(
             new Header(
                 Header::LOCATION,
                 $description,
