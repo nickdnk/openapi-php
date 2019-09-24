@@ -163,7 +163,7 @@ class Endpoint implements JsonSerializable
         $this->tag = $tag;
     }
 
-    public function withRequestBodyFromEntity($class): self
+    public function withRequestBodyFromEntity(string $class): self
     {
 
         if ($this->httpMethod === Endpoint::GET) {
