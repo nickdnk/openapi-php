@@ -86,19 +86,24 @@ class OpenAPI implements JsonSerializable
     final public function addRequiredSecuritySchemes($securitySchemes)
     {
 
-        if (is_array($securitySchemes) && count($securitySchemes) === 0) {
-            throw new InvalidArgumentException(
-                'You cannot pass an empty required security schema array to the root object.'
-            );
-        }
+        if (is_array($securitySchemes)) {
 
-        if (!($securitySchemes instanceof RequiredSecurityScheme)) {
+            if (count($securitySchemes) === 0) {
+
+                throw new InvalidArgumentException(
+                    'You cannot pass an empty required security schema array to the root object.'
+                );
+            }
+
+        } elseif (!($securitySchemes instanceof RequiredSecurityScheme)) {
+
             throw new InvalidArgumentException(
                 'Invalid argument passed to addRequiredSecuritySchemes.'
                 . ' Must be an instance of or an array of RequiredSecurityScheme. Received ' . get_class(
                     $securitySchemes
                 )
             );
+
         }
 
         $this->requiredSecuritySchemes[] = $securitySchemes;
@@ -180,7 +185,7 @@ class OpenAPI implements JsonSerializable
 
                 foreach ($path->getEndPoints() as $endPoint) {
 
-                    if (!$endPoint->getResponses()) {
+                    if (count($endPoint->getResponses()) === 0) {
                         throw new InvalidArgumentException(
                             'Endpoint ' . strtoupper($endPoint->getHttpMethod()) . ' for ' . $path->getPath()
                             . ' has no defined responses.'
