@@ -53,7 +53,7 @@ class AnObject extends Base
     final public static function withProperties(Property ...$properties): self
     {
 
-        if ($properties === null) {
+        if (!$properties) {
             throw new InvalidArgumentException('withProperties() requires at least one property.');
         }
 
@@ -141,7 +141,7 @@ class AnObject extends Base
 
         } else {
 
-            if ($this->getRequired() !== null) {
+            if ($this->getRequired()) {
 
                 if (($key = array_search(
                         $property->getName(),
@@ -183,7 +183,16 @@ class AnObject extends Base
         unset($this->properties[$property]);
 
         if ($this->getRequired()) {
-            unset($this->getRequired()[$property]);
+
+            if (($key = array_search(
+                    $property,
+                    $this->getRequired(),
+                    true
+                )) !== false) {
+                unset($this->getRequired()[$key]);
+                $this->withRequired(array_values($this->getRequired()));
+            }
+
         }
 
         return $this;

@@ -3,6 +3,8 @@
 
 namespace nickdnk\OpenAPI\Types;
 
+use InvalidArgumentException;
+
 class AnyOf extends Base
 {
 
@@ -31,6 +33,16 @@ class AnyOf extends Base
 
     }
 
+    final public function getObjectAtIndex(int $index)
+    {
+
+        if (isset($this->anyOf[$index])) {
+            return $this->anyOf[$index];
+        }
+
+        throw new InvalidArgumentException('Index ' . $index . ' not defined on anyOf.');
+    }
+    
     public function jsonSerialize()
     {
 
