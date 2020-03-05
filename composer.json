@@ -6,7 +6,7 @@
     "swagger",
     "php"
   ],
-  "license": "MIT",
+  "license": "mit",
   "authors": [
     {
       "name": "Nicolai Cornelis"
@@ -22,6 +22,14 @@
     ],
     "psr-4": {
       "nickdnk\\OpenAPI\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "exclude-from-classmap": [
+      "/tests/"
+    ],
+    "psr-4": {
+      "nickdnk\\OpenAPI\\Tests\\": "tests/"
     }
   },
   "require-dev": {

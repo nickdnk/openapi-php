@@ -223,7 +223,6 @@ class AnObject extends Base
             );
         }
 
-        /** @noinspection PhpParamsInspection */
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::isRequired($requiredProperties);
 
@@ -274,11 +273,13 @@ class AnObject extends Base
      * essentially does nothing.
      *
      * @param string $property
+     *
+     * @return AnObject
      */
-    final public function requireProperty(string $property)
+    final public function requireProperty(string $property): self
     {
 
-        self::withRequired(
+        return self::withRequired(
             array_merge(
                 parent::getRequired() ?? [],
                 [$property]

@@ -1,9 +1,12 @@
 <?php
 
 
-namespace nickdnk\OpenAPI\Types;
+namespace nickdnk\OpenAPI\Tests\Types;
 
 use InvalidArgumentException;
+use nickdnk\OpenAPI\Types\AnInteger;
+use nickdnk\OpenAPI\Types\AString;
+use nickdnk\OpenAPI\Types\OneOf;
 use PHPUnit\Framework\TestCase;
 
 class OneOfTest extends TestCase

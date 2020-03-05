@@ -1,9 +1,14 @@
 <?php
 
 
-namespace nickdnk\OpenAPI\Types;
+namespace nickdnk\OpenAPI\Tests\Types;
 
 use InvalidArgumentException;
+use nickdnk\OpenAPI\Types\AnArray;
+use nickdnk\OpenAPI\Types\AnInteger;
+use nickdnk\OpenAPI\Types\AnObject;
+use nickdnk\OpenAPI\Types\AString;
+use nickdnk\OpenAPI\Types\Property;
 use PHPUnit\Framework\TestCase;
 
 class AnObjectTest extends TestCase
@@ -154,4 +159,17 @@ class AnObjectTest extends TestCase
 
     }
 
+    public function testJsonEncode()
+    {
+
+        $this->assertEquals(
+            '{"description":"Object description","required":["test"],"type":"object","properties":{"test":{"type":"string"}}}',
+            json_encode(
+                AnObject::withProperties(new Property('test', AString::get()))
+                    ->withDescription('Object description')
+                    ->withRequired(['test'])
+            )
+        );
+
+    }
 }
