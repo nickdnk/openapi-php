@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use JsonSerializable;
 use nickdnk\OpenAPI\Components\Security\RequiredSecurityScheme;
 use nickdnk\OpenAPI\OpenAPIDocument;
+use nickdnk\OpenAPI\Types\Base;
 
 class Endpoint implements JsonSerializable
 {
@@ -157,25 +158,18 @@ class Endpoint implements JsonSerializable
 
     }
 
-    /**
-     * @param string $tag
-     */
     public function setTag(string $tag): void
     {
 
         $this->tag = $tag;
     }
 
-    public function withRequestBodyFromEntity(string $class, string $contentType = self::CONTENT_TYPE_APPLICATION_JSON): self
+    public function withRequestBodyFromDocument(Base $class, string $contentType = self::CONTENT_TYPE_APPLICATION_JSON): self
     {
 
         if ($this->httpMethod === Endpoint::GET) {
-            throw new InvalidArgumentException('Passed request body entity ' . $class . ' to GET endpoint.');
+            throw new InvalidArgumentException('Passed request body entity ' . (is_string($class) ? ($class . ' ') : '') . 'to GET endpoint.');
         }
-
-        /**
-         * @var OpenAPIDocument $class
-         */
 
         if ($this->requestBodies === null) {
             $this->requestBodies = [];
@@ -185,11 +179,22 @@ class Endpoint implements JsonSerializable
             $this->requestBodies[$contentType] = [];
         }
 
-        $this->requestBodies[$contentType][] = $class::getOpenAPISpec(
-            $this->httpMethod
-        );
+        $this->requestBodies[$contentType][] = $class;
 
         return $this;
+
+    }
+
+    public function withRequestBodyFromEntity(string $class, string $contentType = self::CONTENT_TYPE_APPLICATION_JSON): self
+    {
+
+        /**
+         * @var $class OpenAPIDocument
+         */
+        return $this->withRequestBodyFromDocument(
+            $class::getOpenAPISpec($this->httpMethod),
+            $contentType
+        );
 
     }
 
@@ -223,23 +228,23 @@ class Endpoint implements JsonSerializable
     {
 
         $return = [
-            'tags'        => [$this->tag],
-            'summary'     => $this->summary,
+            'tags' => [$this->tag],
+            'summary' => $this->summary,
             'operationId' => strtolower(
-                                 str_replace(
-                                     ' ',
-                                     '',
-                                     $this->tag
-                                 )
-                             ) . '-' . lcfirst(
-                                 ucwords(
-                                     preg_replace(
-                                         '/[^[A-Za-z]+/',
-                                         '',
-                                         $this->summary
-                                     )
-                                 )
-                             ),
+                    str_replace(
+                        ' ',
+                        '',
+                        $this->tag
+                    )
+                ) . '-' . lcfirst(
+                    ucwords(
+                        preg_replace(
+                            '/[^[A-Za-z]+/',
+                            '',
+                            $this->summary
+                        )
+                    )
+                ),
             'description' => $this->description,
         ];
 
