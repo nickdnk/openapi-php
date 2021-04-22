@@ -4,7 +4,6 @@
 namespace nickdnk\OpenAPI\Tests\Types;
 
 use InvalidArgumentException;
-use nickdnk\OpenAPI\Types\AnArray;
 use nickdnk\OpenAPI\Types\AnInteger;
 use nickdnk\OpenAPI\Types\AnObject;
 use nickdnk\OpenAPI\Types\AString;
@@ -27,11 +26,10 @@ class AnObjectTest extends TestCase
 
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testWithPropertiesEmptyArray()
     {
+
+        $this->expectException(InvalidArgumentException::class);
 
         AnObject::withProperties();
 
@@ -82,11 +80,10 @@ class AnObjectTest extends TestCase
 
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testIsRequired()
     {
+
+        $this->expectException(InvalidArgumentException::class);
 
         AnObject::withProperties(
             new Property('test_property_string', AString::get())

@@ -25,11 +25,10 @@ class OneOfTest extends TestCase
 
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testGetObjectAtIndexInvalid()
     {
+
+        $this->expectException(InvalidArgumentException::class);
 
         $string = AString::get();
         $int = AnInteger::get();

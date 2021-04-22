@@ -17,6 +17,9 @@ class Endpoint implements JsonSerializable
     const DELETE = 'delete';
     const PATCH  = 'patch';
 
+    const CONTENT_TYPE_APPLICATION_JSON                  = 'application/json';
+    const CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
+
     private $tag, $summary, $description, $responses;
     /**
      * @var array|null
@@ -112,7 +115,7 @@ class Endpoint implements JsonSerializable
         return $this;
     }
 
-    public function withResponses(Response ... $response): self
+    public function withResponses(Response ...$response): self
     {
 
         $this->responses = $response;
@@ -121,7 +124,7 @@ class Endpoint implements JsonSerializable
 
     }
 
-    public function withParameters(Parameter ... $parameter): self
+    public function withParameters(Parameter ...$parameter): self
     {
 
         $this->parameters = $parameter;
@@ -163,7 +166,7 @@ class Endpoint implements JsonSerializable
         $this->tag = $tag;
     }
 
-    public function withRequestBodyFromEntity(string $class): self
+    public function withRequestBodyFromEntity(string $class, string $contentType = self::CONTENT_TYPE_APPLICATION_JSON): self
     {
 
         if ($this->httpMethod === Endpoint::GET) {
@@ -178,7 +181,11 @@ class Endpoint implements JsonSerializable
             $this->requestBodies = [];
         }
 
-        $this->requestBodies[] = $class::getOpenAPISpec(
+        if (!isset($this->requestBodies[$contentType])) {
+            $this->requestBodies[$contentType] = [];
+        }
+
+        $this->requestBodies[$contentType][] = $class::getOpenAPISpec(
             $this->httpMethod
         );
 
@@ -344,14 +351,28 @@ class Endpoint implements JsonSerializable
 
             $return['requestBody'] = [
                 'required' => true,
-                'content'  => [
-                    'application/json' => [
-                        'schema' => count($this->requestBodies) > 1 ? [
-                            'oneOf' => $this->requestBodies
-                        ] : $this->requestBodies[0]
-                    ]
-                ]
+                'content' => []
             ];
+
+            $contentTypes = [];
+            foreach ($this->requestBodies as $contentType => $requestBodies) {
+                if (!isset($contentTypes[$contentType])) {
+                    $contentTypes[$contentType] = [];
+                }
+                foreach ($requestBodies as $requestBody) {
+                    $contentTypes[$contentType][] = $requestBody;
+                }
+            }
+
+            foreach ($contentTypes as $contentType => $bodies) {
+
+                $return['requestBody']['content'][$contentType] = [
+                    'schema' => count($bodies) > 1 ? [
+                        'oneOf' => $bodies
+                    ] : $bodies[0]
+                ];
+
+            }
 
         }
 
