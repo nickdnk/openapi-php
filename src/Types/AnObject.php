@@ -77,14 +77,13 @@ class AnObject extends Base
      * We override only for phpdoc to match return type.
      *
      * @param string|null $description
-     * @param bool        $clone
+     * @param bool $clone
      *
      * @return AnObject
      */
-    public function withDescription(?string $description, $clone = false)
+    public function withDescription(?string $description, bool $clone = false): AnObject
     {
 
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::withDescription($description, $clone);
     }
 
@@ -95,10 +94,9 @@ class AnObject extends Base
      *
      * @return AnObject
      */
-    public function withTitleFromClass(string $class)
+    public function withTitleFromClass(string $class): AnObject
     {
 
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::withTitleFromClass($class);
     }
 
@@ -114,12 +112,12 @@ class AnObject extends Base
      * suppressed by passing false to the $sort parameter.
      *
      * @param Property $property
-     * @param bool     $required
-     * @param bool     $sort
+     * @param bool $required
+     * @param bool $sort
      *
      * @return AnObject
      */
-    final public function addProperty(Property $property, $required = false, $sort = true): self
+    final public function addProperty(Property $property, bool $required = false, bool $sort = true): self
     {
 
         $this->properties[$property->getName()] = $property->getSchema();
@@ -214,7 +212,7 @@ class AnObject extends Base
      *
      * @return self
      */
-    final public function withRequired(array $requiredProperties)
+    final public function withRequired(array $requiredProperties): AnObject
     {
 
         if (!is_array($requiredProperties)) {
@@ -223,13 +221,12 @@ class AnObject extends Base
             );
         }
 
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::isRequired($requiredProperties);
 
     }
 
     /**
-     * @param $required
+     * @param bool $required
      *
      * @return Base|void
      * @throws InvalidArgumentException
@@ -305,7 +302,7 @@ class AnObject extends Base
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = parent::jsonSerialize();

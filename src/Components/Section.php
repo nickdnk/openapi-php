@@ -28,7 +28,7 @@ class Section implements JsonSerializable
     /**
      * @param string $name
      * @param string $andDescription
-     * @param Path   ...$paths
+     * @param Path ...$paths
      *
      * @return Section
      */
@@ -40,10 +40,6 @@ class Section implements JsonSerializable
         );
     }
 
-
-    /**
-     * @return string
-     */
     final public function getName(): string
     {
 
@@ -59,16 +55,7 @@ class Section implements JsonSerializable
         return $this->paths;
     }
 
-
-    /**
-     * Specify data which should be serialized to JSON
-     *
-     * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         return [

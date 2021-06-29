@@ -55,7 +55,7 @@ class AnInteger extends Base
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = parent::jsonSerialize();

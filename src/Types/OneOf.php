@@ -10,11 +10,6 @@ class OneOf extends Base
 
     private $oneOf;
 
-    /**
-     * AllOf constructor.
-     *
-     * @param $oneOf
-     */
     private function __construct(array $oneOf)
     {
 
@@ -26,14 +21,14 @@ class OneOf extends Base
      *
      * @return OneOf
      */
-    final public static function items(Base ... $items): self
+    final public static function items(Base ...$items): self
     {
 
         return new self($items);
 
     }
 
-    final public function getObjectAtIndex(int $index)
+    final public function getObjectAtIndex(int $index): Base
     {
 
         if (isset($this->oneOf[$index])) {
@@ -43,7 +38,7 @@ class OneOf extends Base
         throw new InvalidArgumentException('Index ' . $index . ' not defined on oneOf.');
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = parent::jsonSerialize();

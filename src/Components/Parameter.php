@@ -14,15 +14,6 @@ class Parameter implements JsonSerializable
 
     private $name, $type, $description, $isRequired, $schema;
 
-    /**
-     * Parameter constructor.
-     *
-     * @param $name
-     * @param $type
-     * @param $description
-     * @param $isRequired
-     * @param $schema
-     */
     private function __construct(string $name, string $type, string $description, bool $isRequired, Base $schema)
     {
 
@@ -50,15 +41,7 @@ class Parameter implements JsonSerializable
         );
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     *
-     * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = [

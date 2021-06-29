@@ -37,9 +37,9 @@ class OpenAPI implements JsonSerializable
     /**
      * Root constructor.
      *
-     * @param string                $openApi
-     * @param Info                  $info
-     * @param Server[]              $servers
+     * @param string $openApi
+     * @param Info $info
+     * @param Server[] $servers
      * @param SecurityScheme[]|null $security
      */
     public function __construct(string $openApi, Info $info, array $servers, ?array $security)
@@ -83,7 +83,7 @@ class OpenAPI implements JsonSerializable
      *
      * @param RequiredSecurityScheme|RequiredSecurityScheme[]
      */
-    final public function addRequiredSecuritySchemes($securitySchemes)
+    final public function addRequiredSecuritySchemes($securitySchemes): void
     {
 
         if (is_array($securitySchemes)) {
@@ -109,19 +109,11 @@ class OpenAPI implements JsonSerializable
         $this->requiredSecuritySchemes[] = $securitySchemes;
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     *
-     * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = [
-            'openapi' => '3.0.0',
+            'openapi' => $this->openApi,
             'servers' => $this->servers,
             'info'    => $this->info,
             'tags'    => [],

@@ -169,4 +169,17 @@ class AnObjectTest extends TestCase
         );
 
     }
+
+    public function testDeprecated()
+    {
+
+        $this->assertEquals(
+            '{"deprecated":true,"type":"object","properties":{"test":{"deprecated":true,"type":"string"}}}',
+            json_encode(
+                AnObject::withProperties(new Property('test', AString::get()->isDeprecated()))
+                    ->isDeprecated()
+            )
+        );
+
+    }
 }

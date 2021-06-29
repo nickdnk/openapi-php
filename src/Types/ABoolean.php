@@ -6,7 +6,7 @@ namespace nickdnk\OpenAPI\Types;
 class ABoolean extends Base
 {
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = parent::jsonSerialize();
@@ -17,7 +17,7 @@ class ABoolean extends Base
 
     }
 
-    final public static function get()
+    final public static function get(): self
     {
 
         return new self();

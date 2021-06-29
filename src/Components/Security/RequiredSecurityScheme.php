@@ -9,12 +9,6 @@ class RequiredSecurityScheme
 
     private $title, $scopes;
 
-    /**
-     * RequiredSecurityScheme constructor.
-     *
-     * @param $title
-     * @param $scopes
-     */
     private function __construct(string $title, ?array $scopes)
     {
 
@@ -32,7 +26,7 @@ class RequiredSecurityScheme
      *
      * @return RequiredSecurityScheme
      */
-    public static function forOAuth(string $title, array $scopes)
+    public static function forOAuth(string $title, array $scopes): self
     {
 
         return new self($title, $scopes);
@@ -45,7 +39,7 @@ class RequiredSecurityScheme
      *
      * @return RequiredSecurityScheme
      */
-    public static function forAny(string $title)
+    public static function forAny(string $title): self
     {
 
         return new self($title, null);

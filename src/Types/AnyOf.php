@@ -10,11 +10,6 @@ class AnyOf extends Base
 
     private $anyOf;
 
-    /**
-     * AllOf constructor.
-     *
-     * @param $anyOf
-     */
     private function __construct(array $anyOf)
     {
 
@@ -26,7 +21,7 @@ class AnyOf extends Base
      *
      * @return AnyOf
      */
-    final public static function items(Base... $items): self
+    final public static function items(Base...$items): self
     {
 
         return new self($items);
@@ -42,8 +37,8 @@ class AnyOf extends Base
 
         throw new InvalidArgumentException('Index ' . $index . ' not defined on anyOf.');
     }
-    
-    public function jsonSerialize()
+
+    public function jsonSerialize(): array
     {
 
         $return = parent::jsonSerialize();

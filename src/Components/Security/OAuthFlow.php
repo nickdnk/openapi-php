@@ -19,14 +19,14 @@ class OAuthFlow
      *
      * @link https://swagger.io/docs/specification/authentication/oauth2/
      *
-     * @param string      $authorizationUrl
-     * @param string      $tokenUrl
-     * @param array       $scopes
+     * @param string|null $authorizationUrl
+     * @param string|null $tokenUrl
+     * @param array $scopes
      * @param string|null $refreshUrl
-     * @param string      $type
+     * @param string $type
      */
     private function __construct(?string $authorizationUrl, ?string $tokenUrl, array $scopes, ?string $refreshUrl,
-        string $type
+                                 string $type
     )
     {
 
@@ -40,8 +40,8 @@ class OAuthFlow
     /**
      * Describes an implicit flow.
      *
-     * @param string      $authorizationUrl
-     * @param array       $scopes
+     * @param string $authorizationUrl
+     * @param array $scopes
      * @param string|null $refreshUrl
      *
      * @return static
@@ -56,15 +56,15 @@ class OAuthFlow
     /**
      * Describes an authorization code flow.
      *
-     * @param string      $authorizationUrl
-     * @param string      $tokenUrl
-     * @param array       $scopes
+     * @param string $authorizationUrl
+     * @param string $tokenUrl
+     * @param array $scopes
      * @param string|null $refreshUrl
      *
      * @return static
      */
     final public static function authorizationCode(string $authorizationUrl, string $tokenUrl, array $scopes,
-        ?string $refreshUrl
+                                                   ?string $refreshUrl
     ): self
     {
 
@@ -75,8 +75,8 @@ class OAuthFlow
     /**
      * Describes a password flow.
      *
-     * @param string      $tokenUrl
-     * @param array       $scopes
+     * @param string $tokenUrl
+     * @param array $scopes
      * @param string|null $refreshUrl
      *
      * @return static
@@ -91,8 +91,8 @@ class OAuthFlow
     /**
      * Describes a client credentials flow.
      *
-     * @param string      $tokenUrl
-     * @param array       $scopes
+     * @param string $tokenUrl
+     * @param array $scopes
      * @param string|null $refreshUrl
      *
      * @return static
@@ -104,27 +104,18 @@ class OAuthFlow
 
     }
 
-    /**
-     * @return string
-     */
     final public function getAuthorizationUrl(): string
     {
 
         return $this->authorizationUrl;
     }
 
-    /**
-     * @return string
-     */
     final public function getTokenUrl(): string
     {
 
         return $this->tokenUrl;
     }
 
-    /**
-     * @return string|null
-     */
     final public function getRefreshUrl(): ?string
     {
 
@@ -140,9 +131,6 @@ class OAuthFlow
         return $this->scopes;
     }
 
-    /**
-     * @return string
-     */
     final public function getType(): string
     {
 

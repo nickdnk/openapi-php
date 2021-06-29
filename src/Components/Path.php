@@ -21,8 +21,8 @@ class Path implements JsonSerializable
     /**
      * Path constructor.
      *
-     * @param string           $path
-     * @param Endpoint[]       $endPoints
+     * @param string $path
+     * @param Endpoint[] $endPoints
      * @param Parameter[]|null $commonParameters
      */
     private function __construct(string $path, array $endPoints, ?array $commonParameters = null)
@@ -53,7 +53,7 @@ class Path implements JsonSerializable
     }
 
     /**
-     * @param string   $path
+     * @param string $path
      * @param Endpoint ...$andEndpoints
      *
      * @return Path
@@ -81,15 +81,7 @@ class Path implements JsonSerializable
 
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     *
-     * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = [];

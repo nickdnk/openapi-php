@@ -47,14 +47,14 @@ class Endpoint implements JsonSerializable
     /**
      * Endpoint constructor.
      *
-     * @param string           $httpMethod
-     * @param string           $summary
-     * @param string           $description
-     * @param Response[]       $responses
+     * @param string $httpMethod
+     * @param string $summary
+     * @param string $description
+     * @param Response[] $responses
      * @param Parameter[]|null $parameters
      */
     private function __construct(string $httpMethod, string $summary, string $description, array $responses,
-        ?array $parameters = null
+                                 ?array $parameters = null
     )
     {
 
@@ -198,9 +198,6 @@ class Endpoint implements JsonSerializable
 
     }
 
-    /**
-     * @return string
-     */
     final public function getHttpMethod(): string
     {
 
@@ -208,28 +205,20 @@ class Endpoint implements JsonSerializable
     }
 
     /**
-     * @return array|Response[]
+     * @return Response[]
      */
-    final public function getResponses()
+    final public function getResponses(): array
     {
 
         return $this->responses;
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     *
-     * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = [
-            'tags' => [$this->tag],
-            'summary' => $this->summary,
+            'tags'        => [$this->tag],
+            'summary'     => $this->summary,
             'operationId' => strtolower(
                     str_replace(
                         ' ',
@@ -356,7 +345,7 @@ class Endpoint implements JsonSerializable
 
             $return['requestBody'] = [
                 'required' => true,
-                'content' => []
+                'content'  => []
             ];
 
             $contentTypes = [];

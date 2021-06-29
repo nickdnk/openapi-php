@@ -16,12 +16,12 @@ abstract class Base implements JsonSerializable
      */
     const DEFAULT_NULL = '!-null-!';
 
-    private $required, $description, $nullable, $default, $enum, $format, $title;
+    private $required, $description, $nullable, $default, $enum, $format, $title, $deprecated;
 
     protected $example;
 
     /**
-     * @param bool $nullable
+     * @param bool|null $nullable
      *
      * @return static
      */
@@ -38,6 +38,24 @@ abstract class Base implements JsonSerializable
     }
 
     /**
+     * @param bool|null $deprecated
+     *
+     * @return static
+     */
+    final public function isDeprecated(?bool $deprecated = true)
+    {
+
+        if ($deprecated === null) {
+            return $this;
+        }
+
+        $this->deprecated = $deprecated;
+
+        return $this;
+
+    }
+
+    /**
      * @return static
      */
     final public function cloned()
@@ -47,13 +65,13 @@ abstract class Base implements JsonSerializable
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      *
-     * @param bool   $clone
+     * @param bool $clone
      *
      * @return static
      */
-    public function withDescription(?string $description, $clone = false)
+    public function withDescription(?string $description, bool $clone = false)
     {
 
         $ref = $clone ? clone($this) : $this;
@@ -79,7 +97,7 @@ abstract class Base implements JsonSerializable
     }
 
     /**
-     * @param $enum
+     * @param array $enum
      *
      * @return static
      */
@@ -119,7 +137,7 @@ abstract class Base implements JsonSerializable
     }
 
     /**
-     * @param $required
+     * @param bool|array $required
      *
      * @return static
      */
@@ -146,6 +164,11 @@ abstract class Base implements JsonSerializable
 
     }
 
+    /**
+     * @param $example
+     *
+     * @return static
+     */
     public function withExample($example)
     {
 
@@ -169,7 +192,7 @@ abstract class Base implements JsonSerializable
     }
 
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = [];
@@ -184,6 +207,10 @@ abstract class Base implements JsonSerializable
 
         if ($this->nullable) {
             $return['nullable'] = true;
+        }
+
+        if ($this->deprecated) {
+            $return['deprecated'] = true;
         }
 
         if ($this->default !== null) {

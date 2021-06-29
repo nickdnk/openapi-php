@@ -6,7 +6,7 @@ namespace nickdnk\OpenAPI\Types;
 class ANumber extends Base
 {
 
-    const FORMAT_FLOAT  = 'float';
+    const FORMAT_FLOAT = 'float';
     const FORMAT_DOUBLE = 'double';
 
     private $minValue, $maxValue;
@@ -53,7 +53,7 @@ class ANumber extends Base
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = parent::jsonSerialize();

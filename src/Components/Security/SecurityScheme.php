@@ -23,10 +23,10 @@ class SecurityScheme implements JsonSerializable
     const SCHEME_PROXY_AUTHENTICATE  = 'Proxy-Authenticate';
     const SCHEME_AUTHORIZATION       = 'Authorization';
 
-    private $type, $description, $name, $in, $scheme, $bearerFormat, $flows, $openIdConnectUrl, $securityTitle, $addToRoot;
+    private $type, $description, $name, $in, $scheme, $bearerFormat, $flows, $openIdConnectUrl, $securityTitle;
 
     private function __construct(string $securityTitle, string $type, ?string $name, ?string $in, ?string $description,
-        ?string $scheme = null, ?string $bearerFormat = null, ?string $openIdConnectUrl = null
+                                 ?string $scheme = null, ?string $bearerFormat = null, ?string $openIdConnectUrl = null
     )
     {
 
@@ -39,7 +39,6 @@ class SecurityScheme implements JsonSerializable
         $this->bearerFormat = $bearerFormat;
         $this->flows = [];
         $this->openIdConnectUrl = $openIdConnectUrl;
-        $this->addToRoot = false;
 
     }
 
@@ -57,7 +56,7 @@ class SecurityScheme implements JsonSerializable
     }
 
     final public static function http(string $securityTitle, string $scheme, ?string $description,
-        ?string $bearerFormat = null
+                                      ?string $bearerFormat = null
     ): self
     {
 
@@ -74,18 +73,12 @@ class SecurityScheme implements JsonSerializable
 
     }
 
-    /**
-     * @return string
-     */
     final public function getType(): string
     {
 
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
     final public function getSecurityTitle(): string
     {
 
@@ -102,7 +95,7 @@ class SecurityScheme implements JsonSerializable
         foreach ($flows as $authFlow) {
 
             $flow = [
-                'scopes' => $authFlow->getScopes() ? $authFlow->getScopes() : (object)[],
+                'scopes' => $authFlow->getScopes() ?: (object)[],
             ];
 
             if ($authFlow->getRefreshUrl()) {
@@ -149,7 +142,7 @@ class SecurityScheme implements JsonSerializable
 
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $json = [

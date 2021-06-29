@@ -12,13 +12,6 @@ class Response
 
     private $httpCode, $schema, $headers;
 
-
-    /**
-     * Response constructor.
-     *
-     * @param int       $httpCode
-     * @param Base|null $data
-     */
     private function __construct(int $httpCode, ?Base $data)
     {
 
@@ -26,7 +19,7 @@ class Response
         $this->schema = $data;
     }
 
-    final public static function mapHttpCode(int $code)
+    final public static function mapHttpCode(int $code): string
     {
 
         switch ($code) {
@@ -139,7 +132,7 @@ class Response
 
     }
 
-    final public function withHeader(Header $header)
+    final public function withHeader(Header $header): self
     {
 
         if ($this->headers === null) {
@@ -160,18 +153,12 @@ class Response
         return $this->headers;
     }
 
-    /**
-     * @return Base|null
-     */
     final public function getSchema(): ?Base
     {
 
         return $this->schema;
     }
 
-    /**
-     * @return mixed
-     */
     final public function getHttpCode(): int
     {
 

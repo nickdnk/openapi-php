@@ -8,11 +8,6 @@ class AllOf extends Base
 
     private $allOf;
 
-    /**
-     * AllOf constructor.
-     *
-     * @param $allOf
-     */
     private function __construct(array $allOf)
     {
 
@@ -56,7 +51,7 @@ class AllOf extends Base
 
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = parent::jsonSerialize();

@@ -16,9 +16,9 @@ class Server implements JsonSerializable
      * Variables must be a [key => value] array with key being the name of a variable and value being a ServerVariable
      * object that describes the variable.
      *
-     * @param string      $url
+     * @param string $url
      * @param string|null $description
-     * @param array       $variables
+     * @param array|null $variables
      */
     public function __construct(string $url, ?string $description = null, ?array $variables = null)
     {
@@ -28,16 +28,7 @@ class Server implements JsonSerializable
         $this->variables = $variables;
     }
 
-
-    /**
-     * Specify data which should be serialized to JSON
-     *
-     * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
 
         $return = [
