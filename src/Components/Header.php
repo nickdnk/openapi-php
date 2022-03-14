@@ -3,6 +3,7 @@
 
 namespace nickdnk\OpenAPI\Components;
 
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 use nickdnk\OpenAPI\Types\Base;
 
@@ -11,8 +12,10 @@ class Header implements JsonSerializable
 
     const LOCATION = 'Location';
 
-    private $header, $value, $description;
+    private string $description, $header;
+    private Base $value;
 
+    #[Pure]
     public function __construct(string $header, string $description, Base $value)
     {
 
@@ -21,6 +24,7 @@ class Header implements JsonSerializable
         $this->description = $description;
     }
 
+    #[Pure]
     public function getHeader(): string
     {
 

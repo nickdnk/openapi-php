@@ -3,12 +3,15 @@
 
 namespace nickdnk\OpenAPI\Components;
 
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 
 class Server implements JsonSerializable
 {
 
-    private $url, $description, $variables;
+    private ?array $variables;
+    private ?string $description;
+    private string $url;
 
     /**
      * Server constructor.
@@ -20,6 +23,7 @@ class Server implements JsonSerializable
      * @param string|null $description
      * @param array|null $variables
      */
+    #[Pure]
     public function __construct(string $url, ?string $description = null, ?array $variables = null)
     {
 

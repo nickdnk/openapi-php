@@ -4,11 +4,12 @@
 namespace nickdnk\OpenAPI\Types;
 
 use InvalidArgumentException;
+use JetBrains\PhpStorm\Pure;
 
 class OneOf extends Base
 {
 
-    private $oneOf;
+    private array $oneOf;
 
     private function __construct(array $oneOf)
     {
@@ -16,11 +17,7 @@ class OneOf extends Base
         $this->oneOf = $oneOf;
     }
 
-    /**
-     * @param Base ...$items
-     *
-     * @return OneOf
-     */
+    #[Pure]
     final public static function items(Base ...$items): self
     {
 

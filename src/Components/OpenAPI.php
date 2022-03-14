@@ -4,6 +4,7 @@
 namespace nickdnk\OpenAPI\Components;
 
 use InvalidArgumentException;
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 use nickdnk\OpenAPI\Components\Security\RequiredSecurityScheme;
 use nickdnk\OpenAPI\Components\Security\SecurityScheme;
@@ -11,38 +12,34 @@ use nickdnk\OpenAPI\Components\Security\SecurityScheme;
 class OpenAPI implements JsonSerializable
 {
 
-
-    /** @var string $openApi */
-    private $openApi;
-
-    /** @var Info $info */
-    private $info;
+    private string $openApi;
+    private Info $info;
 
     /** @var Server[] $servers */
-    private $servers;
+    private array $servers;
 
     /** @var Section[] $sections */
-    private $sections;
+    private array $sections;
 
     /** @var ExternalDocs[] $externalDocs */
-    private $externalDocs;
+    private ?array $externalDocs;
 
     /** @var SecurityScheme[] $security */
-    private $security;
+    private ?array $security;
 
     /** @var RequiredSecurityScheme[] $requiredSecuritySchemes */
-    private $requiredSecuritySchemes;
-
+    private ?array $requiredSecuritySchemes;
 
     /**
-     * Root constructor.
-     *
      * @param string $openApi
      * @param Info $info
      * @param Server[] $servers
      * @param SecurityScheme[]|null $security
+     * @param RequiredSecurityScheme[]|null $requiredSecuritySchemes
+     * @param ExternalDocs[]|null $externalDocs
      */
-    public function __construct(string $openApi, Info $info, array $servers, ?array $security)
+    #[Pure]
+    public function __construct(string $openApi, Info $info, array $servers, ?array $security = null, ?array $requiredSecuritySchemes = null, ?array $externalDocs = null)
     {
 
         $this->openApi = $openApi;
@@ -50,11 +47,11 @@ class OpenAPI implements JsonSerializable
         $this->sections = [];
         $this->servers = $servers;
         $this->security = $security;
-        $this->requiredSecuritySchemes = null;
-        $this->externalDocs = null;
+        $this->requiredSecuritySchemes = $requiredSecuritySchemes;
+        $this->externalDocs = $externalDocs;
     }
 
-    final public function addExternalDocs(ExternalDocs $docs)
+    final public function addExternalDocs(ExternalDocs $docs): void
     {
 
         if ($this->externalDocs !== null) {
@@ -64,7 +61,7 @@ class OpenAPI implements JsonSerializable
         $this->externalDocs[] = $docs;
     }
 
-    final public function addSection(Section $section)
+    final public function addSection(Section $section): void
     {
 
         $this->sections[] = $section;

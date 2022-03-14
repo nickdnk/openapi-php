@@ -3,13 +3,16 @@
 
 namespace nickdnk\OpenAPI\Components;
 
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 
 class License implements JsonSerializable
 {
 
-    private $name, $url;
+    private ?string $url;
+    private string $name;
 
+    #[Pure]
     public function __construct(string $name, ?string $url)
     {
 

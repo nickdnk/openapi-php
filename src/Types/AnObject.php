@@ -4,18 +4,22 @@
 namespace nickdnk\OpenAPI\Types;
 
 use InvalidArgumentException;
+use JetBrains\PhpStorm\Pure;
 
 class AnObject extends Base
 {
 
-    private $properties;
+    /** @var Property[] */
+    private array $properties;
 
+    #[Pure]
     private function __construct(array $properties)
     {
 
         $this->properties = $properties;
     }
 
+    #[Pure]
     final public static function naked(): self
     {
 
@@ -81,7 +85,7 @@ class AnObject extends Base
      *
      * @return AnObject
      */
-    public function withDescription(?string $description, bool $clone = false): AnObject
+    public function withDescription(?string $description, bool $clone = false): static
     {
 
         return parent::withDescription($description, $clone);
@@ -94,7 +98,7 @@ class AnObject extends Base
      *
      * @return AnObject
      */
-    public function withTitleFromClass(string $class): AnObject
+    public function withTitleFromClass(string $class): static
     {
 
         return parent::withTitleFromClass($class);
@@ -215,24 +219,11 @@ class AnObject extends Base
     final public function withRequired(array $requiredProperties): AnObject
     {
 
-        if (!is_array($requiredProperties)) {
-            throw new InvalidArgumentException(
-                'withRequired() for AnObject must be an array of strings. Received: ' . gettype($requiredProperties)
-            );
-        }
-
         return parent::isRequired($requiredProperties);
 
     }
 
-    /**
-     * @param bool $required
-     *
-     * @return Base|void
-     * @throws InvalidArgumentException
-     * @deprecated
-     */
-    public function isRequired($required = true)
+    public function isRequired(bool|array $required = true): static
     {
 
         throw new InvalidArgumentException('AnObject cannot use isRequired. Use withRequired instead.');
@@ -287,21 +278,13 @@ class AnObject extends Base
     /**
      * @return Property[]
      */
+    #[Pure]
     final public function getProperties(): array
     {
 
         return $this->properties;
     }
 
-
-    /**
-     * Specify data which should be serialized to JSON
-     *
-     * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
     public function jsonSerialize(): array
     {
 

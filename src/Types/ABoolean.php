@@ -3,6 +3,8 @@
 
 namespace nickdnk\OpenAPI\Types;
 
+use JetBrains\PhpStorm\Pure;
+
 class ABoolean extends Base
 {
 
@@ -17,6 +19,7 @@ class ABoolean extends Base
 
     }
 
+    #[Pure]
     final public static function get(): self
     {
 

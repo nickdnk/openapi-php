@@ -3,21 +3,17 @@
 
 namespace nickdnk\OpenAPI\Types;
 
+use JetBrains\PhpStorm\Pure;
+
 class AnInteger extends Base
 {
 
     const FORMAT_INT_32 = 'int32';
     const FORMAT_INT_64 = 'int64';
 
-    private $minValue, $maxValue;
+    private ?int $minValue = null, $maxValue = null;
 
-    /**
-     * AString constructor.
-     */
-    private function __construct()
-    {
-    }
-
+    #[Pure]
     final public static function get(): self
     {
 
@@ -42,12 +38,7 @@ class AnInteger extends Base
 
     }
 
-    /**
-     * @param int|null $example
-     *
-     * @return AnInteger
-     */
-    public function withExample($example): self
+    public function withExample(mixed $example): static
     {
 
         $this->example = $example === null ? Base::DEFAULT_NULL : $example;

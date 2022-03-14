@@ -3,11 +3,14 @@
 
 namespace nickdnk\OpenAPI\Types;
 
+use JetBrains\PhpStorm\Pure;
+
 class AllOf extends Base
 {
 
-    private $allOf;
+    private array $allOf;
 
+    #[Pure]
     private function __construct(array $allOf)
     {
 
@@ -19,6 +22,7 @@ class AllOf extends Base
      *
      * @return AllOf
      */
+    #[Pure]
     final public static function items(Base ...$items): self
     {
 

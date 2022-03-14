@@ -3,6 +3,8 @@
 
 namespace nickdnk\OpenAPI\Types;
 
+use JetBrains\PhpStorm\Pure;
+
 class AString extends Base
 {
 
@@ -12,22 +14,11 @@ class AString extends Base
     const FORMAT_DATE_TIME = 'date-time';
     const FORMAT_PASSWORD  = 'password';
 
-    private $maxLength, $minLength, $pattern;
+    private ?int $maxLength = null, $minLength = null;
+    private ?string $pattern = null;
 
-    /**
-     * AString constructor.
-     */
-    private function __construct()
-    {
-    }
-
+    #[Pure]
     final public static function get(): self
-    {
-
-        return new self();
-    }
-
-    final public static function naked(): self
     {
 
         return new self();
@@ -56,7 +47,7 @@ class AString extends Base
      *
      * @return AString
      */
-    public function withExample($example): self
+    public function withExample(mixed $example): static
     {
 
         $this->example = $example === null ? Base::DEFAULT_NULL : $example;

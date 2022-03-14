@@ -4,6 +4,7 @@
 namespace nickdnk\OpenAPI\Components;
 
 use InvalidArgumentException;
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 
 class Path implements JsonSerializable
@@ -12,22 +13,21 @@ class Path implements JsonSerializable
     /**
      * @var Endpoint[] $endPoints
      */
-    private $endPoints, $commonParameters;
-    /**
-     * @var string
-     */
-    private $path;
+    private array $endPoints;
+
+    /** @var Parameter[]|null */
+    private ?array $commonParameters;
+
+    private string $path;
 
     /**
      * Path constructor.
      *
      * @param string $path
      * @param Endpoint[] $endPoints
-     * @param Parameter[]|null $commonParameters
      */
-    private function __construct(string $path, array $endPoints, ?array $commonParameters = null)
+    private function __construct(string $path, array $endPoints)
     {
-
         if (count($endPoints) === 0) {
             throw new InvalidArgumentException('Empty path: ' . $path);
         }
@@ -47,17 +47,11 @@ class Path implements JsonSerializable
         }
 
         $this->endPoints = $endPoints;
-        $this->commonParameters = $commonParameters;
+        $this->commonParameters = null;
         $this->path = $path;
 
     }
 
-    /**
-     * @param string $path
-     * @param Endpoint ...$andEndpoints
-     *
-     * @return Path
-     */
     final public static function build(string $path, Endpoint ...$andEndpoints): self
     {
 
@@ -67,11 +61,6 @@ class Path implements JsonSerializable
 
     }
 
-    /**
-     * @param Parameter ...$parameters
-     *
-     * @return Path
-     */
     final public function withCommonParameters(Parameter ...$parameters): self
     {
 
@@ -107,9 +96,7 @@ class Path implements JsonSerializable
         return $return;
     }
 
-    /**
-     * @return string
-     */
+    #[Pure]
     final public function getPath(): string
     {
 
@@ -119,11 +106,11 @@ class Path implements JsonSerializable
     /**
      * @return Endpoint[]
      */
+    #[Pure]
     public function getEndPoints(): array
     {
 
         return $this->endPoints;
     }
-
 
 }

@@ -3,10 +3,13 @@
 
 namespace nickdnk\OpenAPI\Types;
 
+use JetBrains\PhpStorm\Pure;
+
 class Property
 {
 
-    private $name, $schema;
+    private Base $schema;
+    private string $name;
 
     public function __construct(string $name, Base $schema)
     {
@@ -15,12 +18,14 @@ class Property
         $this->schema = $schema;
     }
 
+    #[Pure]
     final public function getName(): string
     {
 
         return $this->name;
     }
 
+    #[Pure]
     final public function getSchema(): Base
     {
 

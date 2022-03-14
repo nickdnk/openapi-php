@@ -3,6 +3,7 @@
 
 namespace nickdnk\OpenAPI\Types;
 
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 use ReflectionClass;
 
@@ -16,16 +17,17 @@ abstract class Base implements JsonSerializable
      */
     const DEFAULT_NULL = '!-null-!';
 
-    private $required, $description, $nullable, $default, $enum, $format, $title, $deprecated;
+    private bool|array|null $required = null;
+    private ?string $description = null;
+    private ?bool $nullable = null;
 
-    protected $example;
+    private mixed $default = null;
+    private mixed $enum = null;
+    protected mixed $example = null;
 
-    /**
-     * @param bool|null $nullable
-     *
-     * @return static
-     */
-    final public function isNullable(?bool $nullable = true)
+    private ?string $format = null, $title = null, $deprecated = null;
+
+    final public function isNullable(bool $nullable = true): static
     {
 
         if ($nullable === null) {
@@ -37,17 +39,8 @@ abstract class Base implements JsonSerializable
         return $this;
     }
 
-    /**
-     * @param bool|null $deprecated
-     *
-     * @return static
-     */
-    final public function isDeprecated(?bool $deprecated = true)
+    final public function isDeprecated(bool $deprecated = true): static
     {
-
-        if ($deprecated === null) {
-            return $this;
-        }
 
         $this->deprecated = $deprecated;
 
@@ -55,23 +48,14 @@ abstract class Base implements JsonSerializable
 
     }
 
-    /**
-     * @return static
-     */
-    final public function cloned()
+    #[Pure]
+    final public function cloned(): static
     {
 
         return clone($this);
     }
 
-    /**
-     * @param string|null $description
-     *
-     * @param bool $clone
-     *
-     * @return static
-     */
-    public function withDescription(?string $description, bool $clone = false)
+    public function withDescription(?string $description, bool $clone = false): static
     {
 
         $ref = $clone ? clone($this) : $this;
@@ -82,12 +66,7 @@ abstract class Base implements JsonSerializable
 
     }
 
-    /**
-     * @param string $format
-     *
-     * @return static
-     */
-    final public function withFormat(string $format)
+    final public function withFormat(string $format): static
     {
 
         $this->format = $format;
@@ -96,12 +75,7 @@ abstract class Base implements JsonSerializable
 
     }
 
-    /**
-     * @param array $enum
-     *
-     * @return static
-     */
-    final public function withEnum(array $enum)
+    final public function withEnum(array $enum): static
     {
 
         $this->enum = $enum;
@@ -109,12 +83,7 @@ abstract class Base implements JsonSerializable
         return $this;
     }
 
-    /**
-     * @param $title
-     *
-     * @return static
-     */
-    final public function withTitle($title)
+    final public function withTitle(string $title): static
     {
 
         $this->title = $title;
@@ -122,26 +91,14 @@ abstract class Base implements JsonSerializable
         return $this;
     }
 
-    /**
-     * @noinspection PhpDocMissingThrowsInspection
-     *
-     * @param string $class
-     *
-     * @return static
-     */
-    public function withTitleFromClass(string $class)
+    public function withTitleFromClass(string $class): static
     {
 
         /** @noinspection PhpUnhandledExceptionInspection */
         return $this->withTitle((new ReflectionClass($class))->getShortName());
     }
 
-    /**
-     * @param bool|array $required
-     *
-     * @return static
-     */
-    public function isRequired($required = true)
+    public function isRequired(bool|array $required = true): static
     {
 
         $this->required = $required;
@@ -150,12 +107,7 @@ abstract class Base implements JsonSerializable
 
     }
 
-    /**
-     * @param $default
-     *
-     * @return static
-     */
-    public function withDefault($default)
+    public function withDefault(mixed $default): static
     {
 
         $this->default = $default === null ? Base::DEFAULT_NULL : $default;
@@ -164,12 +116,7 @@ abstract class Base implements JsonSerializable
 
     }
 
-    /**
-     * @param $example
-     *
-     * @return static
-     */
-    public function withExample($example)
+    public function withExample(mixed $example): static
     {
 
         $this->example = $example === null ? Base::DEFAULT_NULL : $example;
@@ -183,9 +130,9 @@ abstract class Base implements JsonSerializable
      * We return this value by reference in order to be able to use the asort() method on it without creating
      * unnecessary copies of the array.
      *
-     * @return mixed
+     * @return string[]|bool|null
      */
-    public function &getRequired()
+    public function &getRequired(): array|bool|null
     {
 
         return $this->required;

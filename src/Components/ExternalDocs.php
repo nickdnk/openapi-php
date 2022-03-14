@@ -3,13 +3,16 @@
 
 namespace nickdnk\OpenAPI\Components;
 
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 
 class ExternalDocs implements JsonSerializable
 {
 
-    private $url, $description;
+    private ?string $description;
+    private string $url;
 
+    #[Pure]
     public function __construct(string $url, ?string $description)
     {
 

@@ -4,6 +4,7 @@
 namespace nickdnk\OpenAPI\Components;
 
 use InvalidArgumentException;
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 use nickdnk\OpenAPI\Components\Security\RequiredSecurityScheme;
 use nickdnk\OpenAPI\OpenAPIDocument;
@@ -21,90 +22,87 @@ class Endpoint implements JsonSerializable
     const CONTENT_TYPE_APPLICATION_JSON                  = 'application/json';
     const CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
-    private $tag, $summary, $description, $responses;
     /**
-     * @var array|null
+     * @var Response[]
      */
-    private $requestBodies;
+    private array $responses;
+
+    /** @var Base[]|null $requestBodies */
+    private ?array $requestBodies;
+
     /**
-     * @var array|null
+     * @var Parameter[]|null
      */
-    private $parameters;
-    /**
-     * @var string
-     */
-    private $httpMethod;
-    /**
-     * @var bool
-     */
-    private $deprecated;
+    private ?array $parameters;
 
     /**
      * @var string[]|null
      */
-    private $requiredSecuritySchemes;
+    private ?array $requiredSecuritySchemes;
 
-    /**
-     * Endpoint constructor.
-     *
-     * @param string $httpMethod
-     * @param string $summary
-     * @param string $description
-     * @param Response[] $responses
-     * @param Parameter[]|null $parameters
-     */
-    private function __construct(string $httpMethod, string $summary, string $description, array $responses,
-                                 ?array $parameters = null
+    private ?string $tag;
+    private string $httpMethod, $summary, $description;
+    private bool $deprecated;
+
+    #[Pure]
+    private function __construct(string $httpMethod, string $summary, string $description
     )
     {
 
-        $this->tag = null; // set by section on output.
+        $this->requiredSecuritySchemes = null;
+        $this->requestBodies = null;
+        $this->tag = null;
         $this->summary = $summary;
         $this->description = $description;
-        $this->responses = $responses;
-        $this->parameters = $parameters;
+        $this->responses = [];
+        $this->parameters = null;
         $this->httpMethod = $httpMethod;
         $this->deprecated = false;
 
     }
 
+    #[Pure]
     final public static function get(string $andSummary, string $description): self
     {
 
         return new self(
-            self::GET, $andSummary, $description, []
+            self::GET, $andSummary, $description
         );
     }
 
+    #[Pure]
     final public static function post(string $andSummary, string $description): self
     {
 
         return new self(
-            self::POST, $andSummary, $description, []
+            self::POST, $andSummary, $description
         );
     }
 
+    #[Pure]
     final public static function put(string $andSummary, string $description): self
     {
 
         return new self(
-            self::PUT, $andSummary, $description, []
+            self::PUT, $andSummary, $description
         );
     }
 
+    #[Pure]
     final public static function delete(string $andSummary, string $description): self
     {
 
         return new self(
-            self::DELETE, $andSummary, $description, []
+            self::DELETE, $andSummary, $description
         );
     }
 
+    #[Pure]
     final public static function patch(string $andSummary, string $description): self
     {
 
         return new self(
-            self::PATCH, $andSummary, $description, []
+            self::PATCH, $andSummary, $description
         );
     }
 
@@ -145,7 +143,7 @@ class Endpoint implements JsonSerializable
      *
      * @return Endpoint
      */
-    public function withRequiredSecuritySchemes($securityScheme): self
+    public function withRequiredSecuritySchemes(array|RequiredSecurityScheme $securityScheme): self
     {
 
         if ($this->requiredSecuritySchemes === null) {
@@ -168,7 +166,7 @@ class Endpoint implements JsonSerializable
     {
 
         if ($this->httpMethod === Endpoint::GET) {
-            throw new InvalidArgumentException('Passed request body entity ' . (is_string($class) ? ($class . ' ') : '') . 'to GET endpoint.');
+            throw new InvalidArgumentException('Passed request body entity ' . $class::class . ' to GET endpoint.');
         }
 
         if ($this->requestBodies === null) {
@@ -198,6 +196,7 @@ class Endpoint implements JsonSerializable
 
     }
 
+    #[Pure]
     final public function getHttpMethod(): string
     {
 
@@ -207,6 +206,7 @@ class Endpoint implements JsonSerializable
     /**
      * @return Response[]
      */
+    #[Pure]
     final public function getResponses(): array
     {
 

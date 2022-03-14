@@ -4,6 +4,7 @@
 namespace nickdnk\OpenAPI\Components\Security;
 
 use InvalidArgumentException;
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 
 class SecurityScheme implements JsonSerializable
@@ -23,9 +24,15 @@ class SecurityScheme implements JsonSerializable
     const SCHEME_PROXY_AUTHENTICATE  = 'Proxy-Authenticate';
     const SCHEME_AUTHORIZATION       = 'Authorization';
 
-    private $type, $description, $name, $in, $scheme, $bearerFormat, $flows, $openIdConnectUrl, $securityTitle;
+    private string $securityTitle, $type;
 
-    private function __construct(string $securityTitle, string $type, ?string $name, ?string $in, ?string $description,
+    /** @var OAuthFlow[]  */
+    private array $flows;
+
+    private ?string $name, $description, $in, $scheme, $bearerFormat, $openIdConnectUrl;
+
+    #[Pure]
+    private function __construct(string  $securityTitle, string $type, ?string $name, ?string $in, ?string $description,
                                  ?string $scheme = null, ?string $bearerFormat = null, ?string $openIdConnectUrl = null
     )
     {
@@ -42,12 +49,14 @@ class SecurityScheme implements JsonSerializable
 
     }
 
+    #[Pure]
     final public static function apiKey(string $securityTitle, string $name, string $in, ?string $description): self
     {
 
         return new self($securityTitle, self::TYPE_API_KEY, $name, $in, $description);
     }
 
+    #[Pure]
     final public static function oAuth2(string $securityTitle, ?string $description): self
     {
 
@@ -55,7 +64,8 @@ class SecurityScheme implements JsonSerializable
 
     }
 
-    final public static function http(string $securityTitle, string $scheme, ?string $description,
+    #[Pure]
+    final public static function http(string  $securityTitle, string $scheme, ?string $description,
                                       ?string $bearerFormat = null
     ): self
     {
@@ -63,6 +73,7 @@ class SecurityScheme implements JsonSerializable
         return new self($securityTitle, self::TYPE_HTTP, null, null, $description, $scheme, $bearerFormat);
     }
 
+    #[Pure]
     final public static function openIdConnect(string $securityTitle, string $openIdConnectUrl, ?string $description
     ): self
     {
@@ -73,12 +84,14 @@ class SecurityScheme implements JsonSerializable
 
     }
 
+    #[Pure]
     final public function getType(): string
     {
 
         return $this->type;
     }
 
+    #[Pure]
     final public function getSecurityTitle(): string
     {
 

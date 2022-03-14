@@ -3,19 +3,17 @@
 
 namespace nickdnk\OpenAPI\Types;
 
+use JetBrains\PhpStorm\Pure;
+
 class ANumber extends Base
 {
 
     const FORMAT_FLOAT = 'float';
     const FORMAT_DOUBLE = 'double';
 
-    private $minValue, $maxValue;
+    private ?float $minValue = null, $maxValue = null;
 
-
-    private function __construct()
-    {
-    }
-
+    #[Pure]
     final public static function get(): self
     {
 
@@ -45,7 +43,7 @@ class ANumber extends Base
      *
      * @return ANumber
      */
-    public function withExample($example): self
+    public function withExample(mixed $example): static
     {
 
         $this->example = $example === null ? Base::DEFAULT_NULL : $example;

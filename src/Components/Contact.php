@@ -3,13 +3,15 @@
 
 namespace nickdnk\OpenAPI\Components;
 
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 
 class Contact implements JsonSerializable
 {
 
-    private $name, $url, $email;
+    private string $url, $name, $email;
 
+    #[Pure]
     public function __construct(string $name, string $url, string $email)
     {
 

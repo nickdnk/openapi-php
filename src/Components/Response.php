@@ -4,131 +4,84 @@
 namespace nickdnk\OpenAPI\Components;
 
 use InvalidArgumentException;
+use JetBrains\PhpStorm\Pure;
 use nickdnk\OpenAPI\Types\AString;
 use nickdnk\OpenAPI\Types\Base;
 
 class Response
 {
 
-    private $httpCode, $schema, $headers;
+    private ?array $headers;
+    private ?Base $schema;
+    private int $httpCode;
 
+    #[Pure]
     private function __construct(int $httpCode, ?Base $data)
     {
 
         $this->httpCode = $httpCode;
         $this->schema = $data;
+        $this->headers = null;
     }
 
     final public static function mapHttpCode(int $code): string
     {
 
-        switch ($code) {
-
-            case 200:
-                return 'OK';
-            case 201:
-                return 'Created';
-            case 202:
-                return 'Accepted';
-            case 203:
-                return 'Non-Authoritative Information';
-            case 204:
-                return 'No Content';
-            case 206:
-                return 'Partial Content';
-            case 226:
-                return 'IM Used';
-            case 300:
-                return 'Multiple Choices';
-            case 301:
-                return 'Moved Permanently';
-            case 302:
-                return 'Found';
-            case 303:
-                return 'See Other';
-            case 304:
-                return 'Not Modified';
-            case 305:
-                return 'Use Proxy';
-            case 307:
-                return 'Temporary Redirect';
-            case 400:
-                return 'Bad Request';
-            case 401:
-                return 'Unauthorized';
-            case 402:
-                return 'Payment Required';
-            case 403:
-                return 'Forbidden';
-            case 404:
-                return 'Not Found';
-            case 405:
-                return 'Method Not Allowed';
-            case 406:
-                return 'Not Acceptable';
-            case 407:
-                return 'Proxy Authentication Required';
-            case 408:
-                return 'Request Timeout';
-            case 409:
-                return 'Conflict';
-            case 410:
-                return 'Gone';
-            case 411:
-                return 'Length Required';
-            case 412:
-                return 'Precondition Failed';
-            case 413:
-                return 'Request Entity Too Large';
-            case 414:
-                return 'Request-URI Too Long';
-            case 415:
-                return 'Unsupported Media Type';
-            case 416:
-                return 'Requested Range Not Satisfiable';
-            case 417:
-                return 'Expectation Failed';
-            case 422:
-                return 'Unprocessable Entity';
-            case 423:
-                return 'Locked';
-            case 424:
-                return 'Failed Dependency';
-            case 426:
-                return 'Upgrade Required';
-            case 428:
-                return 'Precondition Required';
-            case 429:
-                return 'Too Many Requests';
-            case 431:
-                return 'Request Header Fields Too Large';
-            case 451:
-                return 'Unavailable For Legal Reasons';
-            case 500:
-                return 'Internal Server Error';
-            case 501:
-                return 'Not Implemented';
-            case 502:
-                return 'Bad Gateway';
-            case 503:
-                return 'Service Unavailable';
-            case 504:
-                return 'Gateway Timeout';
-            case 505:
-                return 'HTTP Version Not Supported';
-            case 507:
-                return 'Insufficient Storage';
-            case 508:
-                return 'Loop Detected';
-            case 510:
-                return 'Not Extended';
-            case 511:
-                return 'Network Authentication Required';
-            default:
-                throw new InvalidArgumentException(
-                    'Invalid or unknown HTTP status (' . $code . ') passed to map function.'
-                );
-        }
+        return match ($code) {
+            200 => 'OK',
+            201 => 'Created',
+            202 => 'Accepted',
+            203 => 'Non-Authoritative Information',
+            204 => 'No Content',
+            206 => 'Partial Content',
+            226 => 'IM Used',
+            300 => 'Multiple Choices',
+            301 => 'Moved Permanently',
+            302 => 'Found',
+            303 => 'See Other',
+            304 => 'Not Modified',
+            305 => 'Use Proxy',
+            307 => 'Temporary Redirect',
+            400 => 'Bad Request',
+            401 => 'Unauthorized',
+            402 => 'Payment Required',
+            403 => 'Forbidden',
+            404 => 'Not Found',
+            405 => 'Method Not Allowed',
+            406 => 'Not Acceptable',
+            407 => 'Proxy Authentication Required',
+            408 => 'Request Timeout',
+            409 => 'Conflict',
+            410 => 'Gone',
+            411 => 'Length Required',
+            412 => 'Precondition Failed',
+            413 => 'Request Entity Too Large',
+            414 => 'Request-URI Too Long',
+            415 => 'Unsupported Media Type',
+            416 => 'Requested Range Not Satisfiable',
+            417 => 'Expectation Failed',
+            422 => 'Unprocessable Entity',
+            423 => 'Locked',
+            424 => 'Failed Dependency',
+            426 => 'Upgrade Required',
+            428 => 'Precondition Required',
+            429 => 'Too Many Requests',
+            431 => 'Request Header Fields Too Large',
+            451 => 'Unavailable For Legal Reasons',
+            500 => 'Internal Server Error',
+            501 => 'Not Implemented',
+            502 => 'Bad Gateway',
+            503 => 'Service Unavailable',
+            504 => 'Gateway Timeout',
+            505 => 'HTTP Version Not Supported',
+            507 => 'Insufficient Storage',
+            508 => 'Loop Detected',
+            510 => 'Not Extended',
+            511 => 'Network Authentication Required',
+            default => throw new InvalidArgumentException(
+                'Invalid or unknown HTTP status (' . $code . ') passed to map function.'
+            ),
+        };
 
     }
 
@@ -147,18 +100,21 @@ class Response
     /**
      * @return Header[]|null
      */
+    #[Pure]
     final public function getHeaders(): ?array
     {
 
         return $this->headers;
     }
 
+    #[Pure]
     final public function getSchema(): ?Base
     {
 
         return $this->schema;
     }
 
+    #[Pure]
     final public function getHttpCode(): int
     {
 

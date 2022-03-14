@@ -3,14 +3,19 @@
 
 namespace nickdnk\OpenAPI\Components;
 
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 
 class Info implements JsonSerializable
 {
 
-    private $title, $description, $termsOfService, $contact, $license, $version, $logo;
+    private ?string $logo, $description, $termsOfService;
+    private string $version, $title;
+    private ?License $license;
+    private ?Contact $contact;
 
-    public function __construct(string $title, string $version, ?string $description = null,
+    #[Pure]
+    public function __construct(string  $title, string $version, ?string $description = null,
                                 ?string $termsOfService = null, ?Contact $contact = null, ?License $license = null, ?string $logo = null
     )
     {
@@ -24,42 +29,49 @@ class Info implements JsonSerializable
         $this->logo = $logo;
     }
 
+    #[Pure]
     final public function getTitle(): string
     {
 
         return $this->title;
     }
 
+    #[Pure]
     final public function getDescription(): ?string
     {
 
         return $this->description;
     }
 
+    #[Pure]
     final public function getTermsOfService(): ?string
     {
 
         return $this->termsOfService;
     }
 
+    #[Pure]
     final public function getContact(): ?Contact
     {
 
         return $this->contact;
     }
 
+    #[Pure]
     final public function getLicense(): ?License
     {
 
         return $this->license;
     }
 
+    #[Pure]
     final public function getVersion(): string
     {
 
         return $this->version;
     }
 
+    #[Pure]
     final public function getLogo(): ?string
     {
 

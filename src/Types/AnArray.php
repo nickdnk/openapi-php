@@ -3,17 +3,26 @@
 
 namespace nickdnk\OpenAPI\Types;
 
+use JetBrains\PhpStorm\Pure;
+
 class AnArray extends Base
 {
 
-    private $items, $minItems, $maxItems, $uniqueItems;
+    private Base $items;
+    private ?int $minItems, $maxItems;
+    private ?bool $uniqueItems;
 
+    #[Pure]
     private function __construct($items)
     {
 
+        $this->minItems = null;
+        $this->maxItems = null;
+        $this->uniqueItems = false;
         $this->items = $items;
     }
 
+    #[Pure]
     final public static function naked(): self
     {
 
@@ -30,6 +39,7 @@ class AnArray extends Base
      *
      * @return AnArray
      */
+    #[Pure]
     final public static function withItems(Base $items): self
     {
 
@@ -66,7 +76,7 @@ class AnArray extends Base
      *
      * @return AnArray
      */
-    final public function withExample($example): self
+    final public function withExample($example): static
     {
 
         $this->example = $example === null ? Base::DEFAULT_NULL : $example;
@@ -78,12 +88,8 @@ class AnArray extends Base
     {
 
         $return = parent::jsonSerialize();
-
         $return['type'] = 'array';
-
-        if ($this->items) {
-            $return['items'] = $this->items;
-        }
+        $return['items'] = $this->items;
 
         if ($this->minItems !== null) {
             $return['minItems'] = $this->minItems;

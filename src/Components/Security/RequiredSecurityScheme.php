@@ -3,12 +3,17 @@
 
 namespace nickdnk\OpenAPI\Components\Security;
 
+use JetBrains\PhpStorm\Pure;
+
 class RequiredSecurityScheme
 
 {
 
-    private $title, $scopes;
+    /** @var string[]|null */
+    private ?array $scopes;
+    private string $title;
 
+    #[Pure]
     private function __construct(string $title, ?array $scopes)
     {
 
@@ -22,10 +27,11 @@ class RequiredSecurityScheme
      * The scopes should be a simple string array of the required scopes, such as ['scope1', 'scope2...] etc.
      *
      * @param string $title
-     * @param array  $scopes
+     * @param string[] $scopes
      *
      * @return RequiredSecurityScheme
      */
+    #[Pure]
     public static function forOAuth(string $title, array $scopes): self
     {
 
@@ -39,15 +45,14 @@ class RequiredSecurityScheme
      *
      * @return RequiredSecurityScheme
      */
+    #[Pure]
     public static function forAny(string $title): self
     {
 
         return new self($title, null);
     }
 
-    /**
-     * @return string
-     */
+    #[Pure]
     public function getTitle(): string
     {
 
@@ -55,8 +60,9 @@ class RequiredSecurityScheme
     }
 
     /**
-     * @return array|null
+     * @return string[]|null
      */
+    #[Pure]
     public function getScopes(): ?array
     {
 

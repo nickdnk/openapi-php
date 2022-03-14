@@ -3,13 +3,17 @@
 
 namespace nickdnk\OpenAPI\Components;
 
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 
 class ServerVariable implements JsonSerializable
 {
 
-    private $enum, $default, $description;
+    private ?string $description;
+    private string $default;
+    private array $enum;
 
+    #[Pure]
     public function __construct(array $enum, string $default, ?string $description)
     {
 

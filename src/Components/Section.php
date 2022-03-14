@@ -3,20 +3,21 @@
 
 namespace nickdnk\OpenAPI\Components;
 
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 
 class Section implements JsonSerializable
 {
 
-    private $name, $description, $paths;
+    private array $paths;
+    private string $description, $name;
 
     /**
-     * Section constructor.
-     *
      * @param string $name
      * @param string $description
      * @param Path[] $paths
      */
+    #[Pure]
     private function __construct(string $name, string $description, array $paths)
     {
 
@@ -25,14 +26,8 @@ class Section implements JsonSerializable
         $this->paths = $paths;
     }
 
-    /**
-     * @param string $name
-     * @param string $andDescription
-     * @param Path ...$paths
-     *
-     * @return Section
-     */
-    final public static function build(string $name, string $andDescription, ...$paths): self
+    #[Pure]
+    final public static function build(string $name, string $andDescription, Path ...$paths): self
     {
 
         return new self(
@@ -40,6 +35,7 @@ class Section implements JsonSerializable
         );
     }
 
+    #[Pure]
     final public function getName(): string
     {
 
@@ -49,6 +45,7 @@ class Section implements JsonSerializable
     /**
      * @return Path[]
      */
+    #[Pure]
     final public function getPaths(): array
     {
 

@@ -3,6 +3,7 @@
 
 namespace nickdnk\OpenAPI\Components;
 
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 use nickdnk\OpenAPI\Types\Base;
 
@@ -12,8 +13,11 @@ class Parameter implements JsonSerializable
     const TYPE_PATH  = 'path';
     const TYPE_QUERY = 'query';
 
-    private $name, $type, $description, $isRequired, $schema;
+    private Base $schema;
+    private bool $isRequired;
+    private string $description, $type, $name;
 
+    #[Pure]
     private function __construct(string $name, string $type, string $description, bool $isRequired, Base $schema)
     {
 
@@ -24,6 +28,7 @@ class Parameter implements JsonSerializable
         $this->schema = $schema;
     }
 
+    #[Pure]
     final public static function query(string $name, string $description, Base $schema, bool $isRequired = false): self
     {
 
@@ -33,6 +38,7 @@ class Parameter implements JsonSerializable
 
     }
 
+    #[Pure]
     final public static function path(string $name, string $description, Base $schema): self
     {
 

@@ -4,23 +4,22 @@
 namespace nickdnk\OpenAPI\Types;
 
 use InvalidArgumentException;
+use JetBrains\PhpStorm\Pure;
 
 class AnyOf extends Base
 {
 
-    private $anyOf;
+    /** @var Base[] */
+    private array $anyOf;
 
+    #[Pure]
     private function __construct(array $anyOf)
     {
 
         $this->anyOf = $anyOf;
     }
 
-    /**
-     * @param Base ...$items
-     *
-     * @return AnyOf
-     */
+    #[Pure]
     final public static function items(Base...$items): self
     {
 
@@ -28,7 +27,7 @@ class AnyOf extends Base
 
     }
 
-    final public function getObjectAtIndex(int $index)
+    final public function getObjectAtIndex(int $index): Base
     {
 
         if (isset($this->anyOf[$index])) {
