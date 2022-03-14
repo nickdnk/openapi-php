@@ -8,12 +8,12 @@ use JetBrains\PhpStorm\Pure;
 class AnArray extends Base
 {
 
-    private Base $items;
+    private ?Base $items;
     private ?int $minItems, $maxItems;
     private ?bool $uniqueItems;
 
     #[Pure]
-    private function __construct($items)
+    private function __construct(?Base $items)
     {
 
         $this->minItems = null;
@@ -26,7 +26,7 @@ class AnArray extends Base
     final public static function naked(): self
     {
 
-        return new self([]);
+        return new self(null);
     }
 
     /**
@@ -89,7 +89,10 @@ class AnArray extends Base
 
         $return = parent::jsonSerialize();
         $return['type'] = 'array';
-        $return['items'] = $this->items;
+
+        if ($this->items !== null) {
+            $return['items'] = $this->items;
+        }
 
         if ($this->minItems !== null) {
             $return['minItems'] = $this->minItems;
