@@ -39,7 +39,7 @@ class AnObject extends Base
         ksort($this->properties);
 
         return $withObject->getRequired() ? $this->withRequired(
-            array_merge($this->getRequired(), $withObject->getRequired())
+            array_merge($this->getRequired() ?? [], $withObject->getRequired())
         ) : $this;
     }
 
@@ -237,7 +237,7 @@ class AnObject extends Base
      *
      * @return AnObject
      */
-    final public function requireAll(array $except = null): self
+    final public function requireAll(?array $except = null): self
     {
 
         $this->withRequired(

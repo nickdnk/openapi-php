@@ -182,4 +182,20 @@ class AnObjectTest extends TestCase
         );
 
     }
+
+    public function testMergeNoRequiredWithRequired()
+    {
+
+        $obj = AnObject::withProperties(new Property('test', AString::get()));
+
+        $obj->merge(AnObject::withProperties(new Property('required_prop', AString::get()))->requireAll());
+
+        $this->assertEquals(
+            '{"required":["required_prop"],"type":"object","properties":{"required_prop":{"type":"string"},"test":{"type":"string"}}}',
+            json_encode(
+                $obj
+            )
+        );
+
+    }
 }

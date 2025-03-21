@@ -223,7 +223,7 @@ class Endpoint implements JsonSerializable
                     str_replace(
                         ' ',
                         '',
-                        $this->tag
+                        $this->tag ?? ''
                     )
                 ) . '-' . lcfirst(
                     ucwords(
